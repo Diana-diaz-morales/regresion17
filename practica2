@@ -1,0 +1,72 @@
+# regresion17
+#vectores_8/08/2017
+a<-2+3 #vector de longitud 1 porque suma
+b<-c(3,4) - c(6,1) #esta restando vectores es la diferencia
+##genera vector de dos entradas
+b
+c<-c(4,5,6)*c(5,2,1) # vector de 3 entradas
+c ### hace la operacion entrada por entrada
+
+d<-c(1:50,7,99) #: genera valor de 1 a 50
+
+length (d) # para saber la longitud
+length (c)
+
+###operaciones logicas con vectores
+
+d>=45   #que valores de tu vector son mayores a 45
+d==50   #que valores del vector son iguales a 50
+d!=35   #que valores del vector son diferentes a 35
+
+##sucesiones con operacion y funciom
+help(seq)
+z<- seq(0,30,3) # empieza de 0 , va de 3 en 3 y va hasta 30 desde hasta y cada cuanto
+
+z
+
+seq(from=0,to=30, by=3)
+seq(by=3, to=30, from=0)
+seq(from=1, to=30), by=3)
+
+seq(10)
+seq(2,10) ### empieza desde 1
+
+seq(from=3, to=10)
+secuencia<-seq(1,10, by=1)
+secuencial<- seq(0,100, by=10)
+
+sec2<- seq(300.130. by= 3) # pero si se pone -3 , si
+
+sec2
+
+#######muestras
+ingreso<-sample (20000:50000,100) # ingreso de 20000 hasta 50000 y son 100 personas/datos
+
+(ingreso<- sample(20000:50000,100))
+
+ingreso>=40000
+
+# vector ingreso que solo extraiga de los 100, 40000
+
+#despliega automaticamente el valor del objeto 
+aleatorios<- sample(1:10,20, replace=TRUE)
+(aleatorios<-sample(1:10, 20,replace=T))
+
+#para seleccionar la posicion de un vector
+# el valor de el trabajador 50
+
+ingreso[50]
+ingreso[73]
+###corchetes primera entrada
+ingreso[30:43]
+ingreso[c(30,50,70)]
+ingreso[seq(20,50,10)] #da en 20,30,40,50
+ingreso[ingreso>40000]
+ingreso[ingreso<22000]
+ingreso[ingreso>20000 & ingreso<30000] #
+####|es o y & es y
+
+##### repetir
+ss<-c(5,-7,9)
+rr<-rep(ss,times=5)
+rr
