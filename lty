@@ -1,0 +1,6 @@
+# regresion17
+
+
+Los diferentes tipos de líneas disponibles en R se muestran en la figura siguiente. 
+El argumento lty se puede utilizar para especificar el tipo de línea. Para cambiar el ancho de línea, se puede usar el argumento lwdva 
+va del 0 al 7
