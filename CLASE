@@ -1,0 +1,102 @@
+
+z<-11:30
+dim(z)<-c(5,4)
+z
+rownames(z)<-c("escuela1","escuela2", "escuela3","escuela4", "escuela5")
+z
+colnames(z)<-c("toluca","pachuca","mty","guadalajara")
+z
+
+z["escuela3","toluca"]
+z["escuela5","guadalajara"]
+
+h<-matrix(3:20, nrow=6,ncol=3)
+h
+h[3,]
+
+
+##como pegar en la matriz un renglon
+
+z<- rbind(z,c(4,5,6,7))
+z
+
+rownames(z)<-c("escuela1","escuela2", "escuela3","escuela4", "escuela5", "escuela6")
+z
+
+colnames(z)<-c("toluca","pachuca","mty","guadalajara","jocotitlan")
+z
+
+
+#####editar la matriz en una posicion
+
+####para multiplicar matricies se utiliza%*%
+
+j%*%1
+
+####para la transpuesta de una matriz se utiliza t()
+t(i1)
+
+
+######dataframe
+nombres<- c("sergio","juan","rocio","jessica")
+
+##creo vetores edad,altura, salario
+edad<- c(30, 43, 21, 18)
+altura<- c(170,165,175,172)
+salario<- c(3000,4500,2200,4300)
+peso <-c(83.2,75.2,69.3, 70.5)
+
+basem<- data.frame(nombres, edad, altura, salario)
+
+
+view(basem)
+basem[4,3]<-178 #asigno el valor de 178 en ese 4to renglon, 3columna
+
+basem$salario*2.2-> basem$salario # se multiplocan los salarios por 2.2
+basem
+
+#se vuelve asignar el data frame y tiene un nuevo RGUMENTO PESO
+basem<- data.frame(nombres, edad, altura, salario, peso)
+
+basem
+
+
+basem$peso*1.2->basem$peso
+basem
+
+
+###redondeando
+
+round(basem$peso,3)-> basem$peso
+basem
+
+## tendrá una nueva variable  escol de la base incorporame una nueva variable
+
+basem$escol<-c("prepa", "lic", "ninguno", "prim")
+basem
+
+##incorporar variable sexo
+basem$sexo<- c(1,1,2,2)
+
+basem
+
+
+###incorporar variable sexo
+table(basem$sexo) ##tabla de frecuencias
+table(basem$peso)
+
+################para instalar paqueterias
+###foreign importar, exportar a R, uno es bajarlo de internet 
+install.packages("foreign")
+install.packages("questionr") #es para expandir frecuencias de base de datos muestrales 
+install.packages("car")
+#y car es para regresion 
+install.packages(c("foreign,"questionr" , "car"))
+##dentro de cada paquete vienen multiples funciones que solo las podemos usar 
+#cuando mandamos a llmar el paquete
+##para mandar a llamar una paqueteria instalada library() y requiere () son fnciones 
+
+library (foreign)
+library(questionr)
+
+requiere(car)
