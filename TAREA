@@ -1,0 +1,14 @@
+z<-11:30
+dim(z)<-c(5,4)
+z
+rownames(z)<-c("escuela1","escuela2", "escuela3","escuela4", "escuela5")
+z
+colnames(z)<-c("toluca","pachuca","mty","guadalajara")
+z
+
+z["escuela3","toluca"]
+z["escuela5","guadalajara"]
+
+h<-matrix(3:20, nrow=6,ncol=3)
+h
+h[3,]
