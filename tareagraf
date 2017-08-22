@@ -1,0 +1,76 @@
+#### CAMBIAR EDA
+#Recodificar la variable EDA en una nueva variable que se llame GPOEDA y etiquetarla
+
+#esta recodificacion debe quedar en 4 lineas del script 
+
+#la recodificacion es la siguiente
+
+#5,6,7 --1
+
+#8,9,10,11--2preado
+
+#12,13,14 --3 ado
+
+#15,16,17 --4 joven
+
+#una vez que hayan realizado el ejercicio, generar una tabla con datos expandidos 
+
+#y exporatarla a excel
+
+
+
+temporal<-tempfile()
+
+download.file("http://www.beta.inegi.org.mx/contenidos/proyectos/enchogares/modulos/mti/2015/microdatos/mti2015_bases_conapo_dbf.zip",temporal)
+
+files=unzip(temporal,list = TRUE)$Name
+
+unzip(temporal,files = files[grepl("dbf",files)])
+
+library(foreign)
+
+files #me despliega el nombre de todos los archivos que contiene el ZIP
+
+mti15<-data.frame(read.dbf("mti2015_05_17_sdem_precodificado.DBF"))
+
+
+
+mti15$EDA<-as.numeric(as.character(mti15$EDA))
+
+table(mti15$EDA)
+
+
+
+mti15$EDA[mti15$EDA>=5 & mti15$EDA<=7]<-1
+
+mti15$EDA[mti15$RAMA>=8 & mti15$EDA<=11]<-2
+
+mti15$EDA[mti15$RAMA>=12& mti15$EDA<=14]<-3
+
+mti15$EDA[mti15$RAMA>=15 & mti15$EDA<=17]<-4
+
+table(mti15$GPOEDA)
+
+mti15$GPOEDA<-factor(mti15$GPOEDA,levels = c(1,2,3,4),labels = c("niñas","preado","ado","joven"))
+
+
+download.packages("questionr")
+require (questionr)
+
+t<-wtd.table(mti15$GPOEDA, weights= mti15$FAC_MTI)
+
+t
+
+write.csv(t,file="practica1.csv")
+
+
+ 
+barplot(t, width = 1, space = NULL, names.arg = NULL,
+
+        legend.text = NULL, beside = FALSE, horiz = FALSE,
+
+        col=c("red","blue","purple","pink"), border = par("fg"),
+
+        main = "Edades de humanos de 5 a 17 años", sub = "Encuesta Infantil 2015", xlab = "Categorias", ylab = "Frec Muestral",
+
+        xlim = NULL, ylim = NULL,axes = TRUE, axisnames = TRUE, plot = TRUE)
