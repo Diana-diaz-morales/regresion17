@@ -1,0 +1,9 @@
+# x edad de niños
+#y peso de niños kg
+x<-c(2, 3, 5, 7,  8)
+y<-c(14, 20, 32, 42 , 44 )
+length(x)
+length(y)
+plot(x,y, main= "Grafica de dispersión", xlab="x", ylab="y" )
+
+abline(x,y, col="pink")
