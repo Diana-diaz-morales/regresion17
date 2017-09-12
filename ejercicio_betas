@@ -1,0 +1,49 @@
+x<-c(132,129,120,113.2,105,92,84,83.2,88.4,59,80,81.5,71,69.2)
+y<-c(46,48,51,52.1,54,52,59,58.7,61.6,64,61.4,54.6,58.8,58)
+h<-median(x)
+i<-median(y)
+a<-var(x)
+b<- var(y)
+l<-sqrt(a)
+k<- sqrt(b)
+
+g<- cor(y,x)
+g
+be <- (k/l)
+beta1 <- g*be
+beta1
+## calcular beta 0
+beta0 <- h-beta1*i 
+beta0
+
+y1<- beta0+beta1*89
+y1
+beta0 = my - (beta1*mx)
+ec <- (beta0 + beta1*89)
+
+prob1 <- pnorm(210,mean = ec, sd=4, lower.tail = FALSE)
+prob2 <- pnorm(230,mean = ec, sd=4, lower.tail = FALSE)
+
+help(sd)
+help("cor")
+
+
+#*** ejercicio de clase 
+#* x= salario
+#* y= # de camisas
+
+x <- c(132, 129, 120, 113.2, 105, 92, 84, 83.2, 88.4, 59, 80, 81.5, 71, 69.2)
+y <- c(46, 48,51, 52.1, 54, 52, 59, 58.7, 61.6, 64, 61.4 , 54.6, 58.8, 58 )
+
+sxx <- sum(x^2)- ((sum(x))^2)/14
+sxy <- sum(x*y)-((sum(x)*sum(y))/14)
+
+Beta1 <- sxy/sxx
+Beta0 <- mean(y)- (Beta1*mean(x))
+
+y1 <- Beta0 + Beta1*(115)
+y2 <- Beta0 + Beta1*138
+y3 <- Beta0 + Beta1*55
+y4 <- Beta0 + Beta1*99
+y5 <- Beta0 + Beta1*290
+y6 <- Beta0 + Beta1*71
