@@ -1,0 +1,64 @@
+#SE BUSCA RELACION DE 
+#estatura x con longitud del salto y 
+x<-c(170,172,173,174,174,175,176,177,180,180,180,180,180,181,181,182,182,182,182,184,184,185,186,188)
+y<-c(.84,1.31,1.42,1.03,1.07,1.08,1.04,1.8,1.45,1.60,1.61,2.13,2.15,.84,1.43,.90,1.81,1.94,2.68,1.49,2.52,3,1.87,3.08)
+#1 determinar la ecuacion de la recta de regresion estimada 
+#2calcule una estimacion puntul de salto horizontal promedio
+#cuando la estatura de la persona es de 182
+#3 calcule los mvalores de los residuos de mmin cuadrados de
+#las cuatro observaciones con las cuales la estatura es de 182
+
+#¿que proporcion de la variacion observaa en el salto 
+#horizontal es atribuida a la relacion de regresion lineal simple ?
+#####respuesta de la proporcion:
+#Multiple R-squared:  0.4514; 45% 
+
+length(x)
+length(y)
+sxx <- sum(x^2)- ((sum(x))^2)/24
+sxy <- sum(x*y)-((sum(x)*sum(y))/24)
+
+Beta1 <- sxy/sxx
+Beta0 <- mean(y)- (Beta1*mean(x))
+Beta1
+Beta0
+
+
+#r=residuo
+#r<-(Yi-Y´i)
+##la ecuacion de la recta 
+yi<-Beta0+Beta1*x
+yi
+r=y-yi
+r
+#cuando la persona mide 182. la longitud que brinca es:
+#estimacion puntual Y1
+Y1<-Beta0+Beta1*(182)
+Y1
+
+
+####para estimar todo sin la funcion
+####
+
+mdo1<-lm(y~x)
+summary(mdo1)
+
+##2#residuos
+valor1<-.90-Y1
+valor1
+valor2<-1.82-Y1
+valor2
+valor3<-1.92-Y1
+valor3
+valor4<-2.68-Y1
+valor4
+
+####
+names(mdo1)
+mdo1$coefficients
+mdo1$residuals
+### para extrael 1 por uno
+mdo1$coefficients[1]
+
+plot(y~x, xlab= "estatura", ylab="salto horizontal", xlim=c(160,190), ylim=c(.80,3.2),main= "GRAFICA DIAGRAMA DE DISPERSION")
+abline(mdo1, col="blue")
