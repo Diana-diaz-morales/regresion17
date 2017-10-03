@@ -1,0 +1,283 @@
+
+
+#ejercicio 16
+# x  volumen de precipitación pluvial (m3
+#y volumen de escurrimiento m3
+
+
+x<-c(5, 12, 14, 17, 23, 30, 40, 47, 55, 67, 72, 81, 96, 112, 127)
+y<-c(4, 10, 13, 15, 15, 25, 27, 46, 38, 46, 53, 70, 82, 99, 100)
+
+#a)
+# ¿Apoya una gráfica de puntos de los datos el uso del modelo
+#de regresión lineal simple?  Si, ya que se pueden visualizar la dispersión 
+#de los datos con respecto a la recta
+
+#Código:
+m1<- lm(y~x)
+plot(y~x, xlab="volumen de precipitación pluvial m3", ylab="volumen de escurrimiento m3",xlim=c(5,130),
+ylim=c(2,100), main="Grafica")
+abline(m1,col="green")
+
+#b)
+#. Calcule estimaciones puntuales de la pendiente e intersección de la línea de regresión de la población. 
+
+#Código:
+sxx<-sum(x^2)-(sum(x))^2/length(x)
+sxx
+sxy<-sum(x*y)-(sum(x)*sum(y))/length(x)
+sxy
+b1<-sxy/sxx
+b1
+b0<-mean(y)-(b1*mean(x))
+b0
+yi<-b0+b1*(x)
+yi
+
+#c) 
+#Calcule una estimación puntual del volumen de escurrimiento promedio verdadero cuando el volumen de
+# precipitación pluvial es de 50. 
+
+#Código:
+y50<- b1+b1*(50)
+y50
+
+#d) Calcule una estimación puntual de la desviación estándar 
+
+#Código:
+#SSE<-sum((y-yi)^2)
+# SSE
+
+
+SSE<-sum(y^2)-(b0*sum(y))-(b1*sum(x*y))
+SSE
+
+sigma<-SSE/(15-2)
+sigma
+
+
+#e)
+#¿Qué proporción de la variación observada del volumen
+#de escurrimiento puede ser atribuida a la relación de regresión
+#lineal simple entre el escurrimiento y la precipitación pluvial?
+#La proporción es de 97.52% 
+
+#codigo:
+SSE
+SST<-sum(y^2)-((sum(y)^2)/length(y))
+r2<-1-(SSE/SST)
+r2
+
+#### Ejercicio 17 :
+ #y: porosidad(%)
+ #x: peso unitario( por pie cúbico)
+
+x<-c(99,101.1, 102.7,103,105.4,107, 108.7,110.8,112.1,112.4,113.6,113.8,115.1,115.4,120)
+y<-c(28.8,27.9,27,25.2,22.8,21.5,20.9,19.6,17.1,18.9,16,16.7,13.0,13.6,10.8)
+length(x)
+length(y)
+
+######  para resolver :
+
+sxx <- sum(x^2)- ((sum(x))^2)/24
+
+sxy <- sum(x*y)-((sum(x)*sum(y))/24)
+
+Beta1 <- sxy/sxx
+
+Beta0 <- mean(y)- (Beta1*mean(x))
+
+Beta1
+
+Beta0
+
+
+mdo1<-lm(y~x)
+
+summary(mdo1)
+
+plot(y~x, xlab= " peso unitario( por pie cúbico)",  ylab="salto horizontal porosidad(%)" , xlim=c(90,130), ylim=c(10,30),main= "GRAFICA DIAGRAMA DE DISPERSION")
+abline(mdo1,col="red")
+
+
+##la ecuacion de la recta 
+### y=b0+b1x, en este caso la ecuación queda : .9145038+.1744299x
+
+yi<-Beta0+Beta1*x
+
+yi
+
+######### notamos que en el diagrama de dispersión, los datos estan muy cerca de de la recta 
+#lo que nos señala es que el error es muy pequeño 
+
+
+
+###La porosidad cuando el peso unitario es de 135
+
+#estimacion puntual Y1
+
+Y1<-Beta0+Beta1*(135)
+
+Y1
+
+
+### Residuos de las dos primeras observacones: son
+
+r=y-yi 
+
+r
+####1: 10.6169383 y la 2:9.3506355
+###para el calculo de la sigma:
+SSE<- (y-yi)^2
+sig<-(SSE/((length(x))-2))
+sig
+sum(sig)
+######proporcion de la variacion observada en la porosidad :
+#####Multiple R-squared:  0.9739 97%
+
+
+
+#EJERCICIO 18
+
+#x  esfuerzo cubico
+#y  esfuerzo axial
+
+#a) Tiene una relaciòn positiva, ya que los dos esfuerzo van aumentando
+
+x<-c(112.3,97,92.7,86,102,99.2,95.8,103.5,89,86.7)
+y<-c(75,71,57.7,48.7,74.3,73.3,68,59.3,57.8,48.5)
+
+sxy<-(sum(x*y)-(sum(x)*sum(y))/length(x))
+sxx<-(sum(x^2)-((sum(x))^2)/length(x))
+b1<-sxy/sxx
+b0<-(mean(y)-(b1*mean(x)))
+yi<-b0+(b1*x)
+m2<-lm(y~x)
+plot(y~x,xlab="esfuerzo cúbico",ylab = "esfuerzo axial",main="Gráfica")
+abline(m2,col="blue")
+
+#b) coeficiente de determinaciòn: La proporciòn es de 63%
+SST<-sum(y^2)-((sum(y)^2)/length(y))
+SCE<-sum(y^2)-(b0*sum(y))-(b1*sum(x*y))
+r2<-1-(SCE/SST)
+r2
+
+#c)  calcule e interprete una estimacion de la desviacion estandar del error
+# en el modelo de regresion lineal simple
+
+sigma2<- SCE/(10-2)
+sigma2
+
+###########Ejercicio 19
+
+##x : tasa de liberación debido a área de quemador (MBtu/h-pie^2)
+##y:tasa de emisión de NOx(ppm)
+x<-c(100,125,125,150,150,200,200,250,250,300,300,350,400,400)
+y<-c(150,140,180,210,190,320,280,400,430,440,390,600,610,670)
+length(x)
+sxx <- sum(x^2)- ((sum(x))^2)/14
+
+sxy <- sum(x*y)-((sum(x)*sum(y))/14)
+
+Beta1 <- sxy/sxx
+
+Beta0 <- mean(y)- (Beta1*mean(x))
+
+Beta1
+
+Beta0
+##la ecuacion de la recta: -45.55191+1.711432x
+yi<-Beta0+Beta1*x
+
+yi
+
+#Tasa de emisión de NOx cuando la tasa de liberación es de 225
+
+Y1<-Beta0+Beta1*(225)
+Y1
+
+##x : tasa de liberación debido a área de quemador (MBtu/h-pie^2)DISMINUIDA EN 50
+##y:tasa de emisión de NOx(ppm)
+
+x<-c(50,75,75,100,100,150,150,200,200,250,250,300,350,350)
+
+y<-c(150,140,180,210,190,320,280,400,430,440,390,600,610,670)
+sxx <- sum(x^2)- ((sum(x))^2)/14
+
+sxy <- sum(x*y)-((sum(x)*sum(y))/14)
+
+Beta1 <- sxy/sxx
+
+Beta0 <- mean(y)- (Beta1*mean(x))
+
+Beta1
+
+Beta0
+##ecuación de la recta : 40.01971+1.711432x
+
+yi<-Beta0+Beta1*x
+
+yi
+###No se notaron los cambios en los resultados obtenidos de las estimaciones 
+
+
+#s¿si utilizaria para predecir el de 500 ya que los datos con los que contamos
+#nos indican como ha sido su comportamiento y ha ido cambiando de manera similar
+
+
+
+#Ejercicio 24
+
+#x= área superficial de la roca
+#y= densidad de la colonia
+
+x<-c(50,71,55,50,33,58,79,26,69,44,37,70,20,45,59)
+y<-c(152,1929,48,22,2,5,35,7,269,38,171,13,43,185,25)
+
+# a) Ajuste el modelo de regresion lineal simple a estos datos,
+# prediga la densidad de la colonia cuando el area superficial=70
+# y cuando el area superficial =71
+
+sxy<-(sum(x*y)-(sum(x)*sum(y))/length(x))
+sxx<-(sum(x^2)-((sum(x))^2)/length(x))
+b1<-sxy/sxx
+b0<-(mean(y)-(b1*mean(x)))
+yi<-b0+(b1*x)
+m3<-lm(y~x)
+## y calcular los residuos correspondientes
+
+#cuando x es 70
+y70<- b0+(b1*70) 
+y70
+
+
+#cuando x es 71
+y71<- b0+(b1*71) 
+y71
+
+res<- y-yi
+res[c(2,12)]
+
+#b) coeficiente de determinacion
+SST<-sum(y^2)-((sum(y)^2)/length(y))
+SCE<-sum(y^2)-(b0*sum(y))-(b1*sum(x*y))
+r2<-1-(SCE/SST)
+r2
+
+#c) cambio, se eliminan los extremos de x y y
+x<-c(50,55,50,33,58,79,26,69,44,37,70,20,45,49)
+y<-c(152,48,22,2,5,35,7,269,38,171,13,43,185,25)
+
+sxy<-(sum(x*y)-(sum(x)*sum(y))/length(x))
+sxx<-(sum(x^2)-((sum(x))^2)/length(x))
+b1<-sxy/sxx
+b0<-(mean(y)-(b1*mean(x)))
+yi<-b0+(b1*x)
+m4<-lm(y~x)
+
+SST<-sum(y^2)-((sum(y)^2)/length(y))
+SCE<-sum(y^2)-(b0*sum(y))-(b1*sum(x*y))
+r2<-1-(SCE/SST)
+r2
+#Difiere ya que el rersiduo anterior era de .11 y ahora es de .02
+
