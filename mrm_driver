@@ -1,0 +1,100 @@
+####10/11/2017
+mod1<-lm(formula = Fertility ~ Education + Catholic + Infant.Mortality +Agriculture,data = base)
+summary(mod1)
+#ne analiza Residual standard error: 7.168
+#la que se analiza es la ajustada porque tiene todas las variables
+#y como es del 67% es aceptable de la r2
+#se analizan los errores residuales estandar 7.168 lo que sifnificancia 
+#de las variables el estadistico t con da esta significancia
+#el estadistico F y el p-value es para ver el ajuste del modelo 
+#la prueba de hipotesis que aplica en el estadistico F es
+#H0=B0,B1,B2,...Bk=0
+#ha:al menos un bj diferente de cero p-value: 1.717e-10
+#aqui esperamos rechazar la hipotesis nula por lo que p-value 
+#debe ser <0.05 
+#despues de evaluar todas las variables y vemos que son signiicativas
+#menor .05)y el estadist f mayor a 1
+####apunte(resumen)
+#una vez que elejimos que modelo revisamos las sig indicadores del modelo
+#1)r2 ajustada :explica la variabilidad del modelo(aprox>.60)
+#2)error estandar:cercano a 0
+#3)significancia de las variables independientes:p-value<0.05 del estadistico t
+#4)estadistico f>1,p-value<.05 
+#lo unico q cancela un modelo es la aplicacion de los supuestos 
+
+#se pasa a las pruebas formales de mi modelo 
+shapiro.test(rstudent(mod1))#prueba shapiro para normalidad 
+#aqui esperamos no rechazar la hipotesis nula por lo que el valor 
+#de p-value debe de ser mayor a 0.05,obtenemos el valor de p-vlue .48
+#por lo que no se rechaza la hipotesis nula. es decir los errores se distribuyen normal
+require(lmtest)
+bptest(mod1) # prueba breush pagan permite ver autocorrelacion 
+#aqui esperamos no rechazar la hipotesis nula  esperamos unp-value mayor 
+#a 0.05 ,este modelo nos permite saber que no hay mas de dos variables 
+#nos arroja un p-value de .5309 por lo que no rechazamos la hipotesis nula
+# es lo que estabamos esperando ,o se puede decir que este modelo su cumple 
+#el supuesto de autocorrelacion 
+#(la hipoteisi nula:quiere decir que no hay dos variabled que esten aportando lo mismo al modelo
+dwtest(mod1,alternative="two.sided")
+#prueba de independencia 
+summary(mod1)
+#la prueba t para H0=r2 agri=0 frenteba Ha:r2 agr;r.1=0 es significativa
+#ya que 0.0187 es menor a 0.05
+##interpretacion de coeficietes 
+#el modelo estima que hay una disminucion de .15
+#la tasa de fecundidad por cada aumento de 1% de hombre 
+#involucramos en la agricultura cultura manteniendo constantes 
+#las variables restantes 
+#agricultura=-0.15462 ##lo que disminuye el coeficiente
+#el modelo estima que hay una disminucion de .98 en la tasa de fecundiad
+#cada aumento de 1 % de la educacion 
+#manteniendo constante las variables restantes 
+#educacion ...-0.98026  es mi coeficiente 
+##el modelo elejido estima que hay un incremento de .12 
+#en la tasa de fecundiad cada aumento de 1% de la poblacion catolica 
+#manteniendo constantes las variables restantes 
+#catolica   0.12467 coeficiente 
+#el modelo elegido estima que hay un incremento de 1.07
+#en la tasa de fecundidad cada aumento de 1% de mortalidad
+#infantil, manteniendo constantes las var restantes.
+#Infant.Mortality  1.07844 
+
+
+#ejercicio de clase
+## variable dependiente drivers
+base1 <- data.frame(Seatbelts)
+View(base1)
+nulo <- lm(drivers~ 1, data = base1)
+
+completo <- lm(drivers~ ., data = base1)
+
+
+step(nulo,scope = list(lower= nulo,upper=completo),direction = "forward")
+
+## el mejor modelo es drivers ~ DriversKilled + front + rear + law + VanKilled
+
+
+
+mod<-lm(formula = drivers ~ DriversKilled + front + rear + law + VanKilled,  data = base1)
+summary(mod)
+
+
+
+shapiro.test(rstudent(mod))
+
+bptest(mod)
+#### no pasa esta prueba 
+
+
+summary(mod)
+
+
+modd <-lm(formula = drivers ~ DriversKilled + front + rear + law ,  data = base1)
+
+shapiro.test(rstudent(modd))
+### pasa la de normalidad
+
+bptest(modd)
+## no pasa no hay autocorrelación
+### en este caso como no pasa la segunda prueba debemos de checar el correlacion del modelo modificando la base o 
+# replanteando el problema
