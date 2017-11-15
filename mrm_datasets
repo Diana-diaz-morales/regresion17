@@ -1,0 +1,65 @@
+###swiss
+#medición estandarizada de la fecundidad e indicadores socioeconomicos 
+#para cada una de las 47 provincias francesas hablantesde suiza
+#alrededor de 1988
+require(stats)
+base<-data.frame(swiss)
+View(base)
+###ANALISIS EXPLORATORIO
+names(base)
+pairs(base)#relacion que hay con cada una de las variables(disper)
+cor(base)
+#PROPUESTA MODELODE REGRESION MULTIPLE CON BASE AL ANALISIS EXPLORATORIO
+#mas relacion con infant mortality
+
+
+regresion1~lm(Infant.Mortality~Fertility, data=base)
+#depenciente y(infantmort), independiente(fer)
+
+#MODELO PROPUESTO ANTERIORMENTE
+
+#modelo nulo ,var indep y constante (la que sea)
+nulo<-lm(Fertility~1,data=base)
+summary(nulo)
+#todo lo que no es fertility,  
+#nulo:comparar los con los cotros modelos con las variables indep incluidas
+completo<-lm(Fertility~.,data=base)
+#depend, indep
+#modelo completo: todas las variables independientes
+#el punto quiere decir: lm(fertility~Inafant,mortality+education+examination+agr+cath)
+step(nulo,scope=list(lower=nulo, upper=completo),direction="forward")
+#el step, calcula los AIC (menos var tenga),
+#nulo(ya que es el mássimple porq solo contiene a la constante)
+#scope (todas las posibilidades desde el nulo al completo)
+summary(completo)
+help(step)
+### en este caso se elige el de 189.86, donde quitan examination
+# el modelo completo no es viable , aunque al principio si 
+#pareciera que lo es
+
+###modelo inventado con datasets
+
+library(help = "datasets")
+
+base1 <- data.frame(mtcars)
+
+names(base1)
+## para ver las graficas de dispersión para la relación
+pairs(base1)
+cor(base1)
+###mpg , var dependiente
+nulo1 <- lm(mpg~ 1, data = base1)
+summary(nulo1)
+
+completo1 <- lm(mpg~ ., data = base1)
+summary(completo1)
+
+step(nulo1,scope = list(lower= nulo1,upper=completo1),direction = "forward")
+
+#el mejor modelo es mpg ~ wt +cyl + hp con un AIC de 62.66 por que es el menor 
+ modelo <- lm(mpg ~ wt + cyl + hp, data = base1)
+summary(modelo)
+
+# con la r ajustada nos da un modelo  de 82.63 
+
+# con un error estandar de 2.512 
