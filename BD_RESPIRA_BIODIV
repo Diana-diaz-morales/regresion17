@@ -1,0 +1,157 @@
+ #EJEMPLO 
+# se estudia y = tasa de respiracion
+# bajo puntos de goteo con un recubrimiento galvanizado
+# el agua que cae sobre el liquen contiene zink y potasio
+# que utilizamos como variables explicativas
+Tasa.Respiracion <- c(71,53,55,48,69,84,21,68,68)
+Potasio <- c(388,258,292,205,449,331,114,580,622)
+Zinc <- c(2414,10693,11682,12560,2464,2607,16205,2505,1825)
+
+Estudio <- data.frame(Tasa.Respiracion,Potasio,Zinc)
+pairs(Estudio)
+cor(Estudio)
+regnull <- lm(Tasa.Respiracion~ 1,data = Estudio)
+allreg <- lm(Tasa.Respiracion~ ., data = Estudio)
+
+step(regnull, scope = list(lower=regnull, upper=allreg), direction="forward")
+
+#ECUACIÓN DEL MODELO
+
+coefficients(mod21)
+#  y=79.48+(-.00285)
+
+## interpretación
+# en este modelo podriamos decir que por cada unidad que aumenta el zinc disminuye la tasa de respiracion en .0028
+
+## mejor modelo lm(formula = Tasa.Respiracion ~ Zinc, data = Estudio)
+mod21 <- lm(Tasa.Respiracion~Zinc, data = Estudio)
+
+summary(mod21)
+## modelo aceptables
+shapiro.test(rstudent(mod21))
+## existe normalidad en los residuos con el p- value = .7997
+require(lmtest)
+2bptest(mod21)
+### tenemos un p- value mayor a .05 
+# homostacidad
+
+dwtest(mod21, alternative = "two.sided") 
+
+# cumple con el modelo de independencia
+
+
+
+# EJERCICIO DOS
+
+# Ritmo cardiaco de personas con diabetes
+# ritmo variable dependiente
+peso <- c(74,92,63,58,78,85,85,73,62,80,72,74)
+altura <- c(168,196,170,175,162,169,190,186,176,170,176,179)
+ritmo<- c(62,75,60,71,66,62,79,75,70,66,71,69)
+edad <- c(25,31,29,64,44,41,37,35,34,29,19,50)
+length(altura)
+
+
+Estudio2 <- data.frame(peso,altura,ritmo,edad)
+pairs(Estudio2)
+cor(Estudio2)
+regnull2 <- lm(ritmo~ 1,data = Estudio2)
+allreg2 <- lm(ritmo~ ., data = Estudio2)step(regnull2, scope = list(lower=regnull2, upper=allreg2), direction="forward")
+
+#### mejor modelo lm(formula = ritmo ~ altura, data = Estudio2)
+mod2 <- lm(formula = ritmo ~ altura, data = Estudio2)
+summary(mod22)
+
+
+## modelo aceptables con una r ajustada de 67 % y error estandar de 3.33
+
+shapiro.test(rstudent(mod22))
+
+## existe normalidad en los residuos con el p- value = .8781
+
+require(lmtest)
+
+bptest(mod22)
+
+### tenemos un p- value mayor a .05 
+
+#HOMOCEDASTICIDAD
+
+dwtest(mod22, alternative = "two.sided") 
+
+### pasa la prueba de independencia
+#CONCLUSIÓN (EJERCICIO 2)
+# es un buen modelo,pasa las pruebas 
+
+##PLANTEAAMIENTO ECUACION 
+coefficients(mod22)
+
+## la ecuacion es y= -18.62 + .495737
+
+### por cada unidad que aumente la altura aumenta en .49  el ritmo
+
+## EJERICIO 3
+
+# FUENTE : INEGI, BIODIVERSIDAD
+
+## 2015
+
+## banco mundial 
+
+# P.E = peligro de extincion
+# EA= especies amenazadas
+# PT = poblacion total 2015
+# especies amenazadas dependientes
+
+pais <- c("ARGENTINA","BOLIVIA","BRASIL","CANADA", "CHILE ","COLOMBIA","COSTA RICA","ECUADOR","EL SALVADOR",
+
+          "EUA","GUATEMALA" ,"MEXICO","PANAMA","PARAGUAY","PERU",
+
+          "REPUBLICA DOMINICANA","TRINIDAD Y TOBAGO", "URUGUAY","VENEZUELA")
+
+P.E <- c(19,16,73,9,22,86,30,82,4,211,37,192,32,4,45,19,8,8,32)
+
+E.A <- c(180,117,451,99,119,511,194,464,58,1029,189,749,171,40,326,111,66,84,233)
+
+P.T <- c(43847430,10887882,206101000,36229000,17909754,48653419,4909000,16529000,6344722,323127513,16582469,
+
+         127540423,4034119,6725308,31481000,10075000,1367000,3444006,31568179)
+
+
+as.character(pais)
+as.numeric()
+Estudio3 <- data.frame(P.E, E.A, P.T)
+pairs(Estudio3)
+cor(Estudio3)
+regnull3 <- lm(E.A~ 1,data = Estudio3)
+allreg3 <- lm(E.A~ ., data = Estudio3)
+step(regnull3, scope = list(lower=regnull3, upper=allreg3), direction="forward")
+
+#### mejor modelo lm(formula = E.A ~ P.E + P.T, data = Estudio3)
+mod23 <- lm(formula = E.A ~ P.E + P.T, data = Estudio3)
+summary(mod23)
+
+## modelo ACEPTABLE con una r ajustada de .9623
+shapiro.test(rstudent(mod23))
+
+
+ ## NO EXISTE NORMALIDAD en los residuos con el p- value = .004605
+
+require(lmtest)
+
+bptest(mod23)
+
+### no tenemos un p- value mayor a .05 
+
+# homostacidad
+
+dwtest(mod23, alternative = "two.sided") 
+
+### pasa la prueba de independencia
+#CONLUSIÓN
+
+# el ejercicio 3 NO es un buen modelo, NO PASA LAS PRUEBAS 
+
+coefficients(mod23)
+##LA ECUACIÓN:
+# y= 6.423541e+01 3.769319e+00x1 4.948825e-07x2+ e
