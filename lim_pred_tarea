@@ -1,0 +1,222 @@
+## del ejercicio anterior 
+Tasa.Respiracion <- c(71,53,55,48,69,84,21,68,68)
+Potasio <- c(388,258,292,205,449,331,114,580,622)
+Zinc <- c(2414,10693,11682,12560,2464,2607,16205,2505,1825)
+
+
+Estudio <- data.frame(Tasa.Respiracion,Potasio,Zinc)
+pairs(Estudio)
+cor(Estudio)
+
+regnull <- lm(Tasa.Respiracion~ 1,data = Estudio)
+
+allreg <- lm(Tasa.Respiracion~ ., data = Estudio)
+
+step(regnull, scope = list(lower=regnull, upper=allreg), direction="forward")
+##23-11-2017
+####limite para producir 
+limestudio<-seq(min(Estudio$Zinc),max(Estudio$Zinc),length=9)
+limestudio<-data.frame(limestudio)
+limestudio
+#predict lm , prediccion del modelo
+limestud<-predict.lm(allreg,limestudio,interval="prediction",se.fit = TRUE,data=Estudio)###para hacer la prediccion de mi modelo 
+#da los primeros valores del data (head)
+#fit.. completo
+#lwr y upr limites
+#valores ajustados 78.07 limstud ajustado
+head(limestud$fit)   ##te genera los limites
+##para dibujar los limites 
+matplot(limestudio,limestud$fit,type="l")
+##hacer estimaciones puntuales 
+#newdata=data.frame()
+#names(Estudio) #son los nombres de la base de datos 
+predict(allreg,data.frame(Zinc=10000,Potasio=40),interval = 'predict')#prediccion cuando se tienen valores en especifico
+
+
+
+################# EJERCICIO DE RITMO CARDIACO############EJEMPLO########
+
+#Ritmo cardiaco de personas con diabetes
+## ritmo variable dependiente
+peso <- c(74,92,63,58,78,85,85,73,62,80,72,74)
+altura <- c(168,196,170,175,162,169,190,186,176,170,176,179)
+ritmo<- c(62,75,60,71,66,62,79,75,70,66,71,69)
+edad <- c(25,31,29,64,44,41,37,35,34,29,19,50)
+length(altura)
+
+est <- data.frame(peso,altura,ritmo,edad)
+pairs(est)
+cor(est)
+regnull1 <- lm(ritmo~ 1,data = est)
+
+allreg1 <- lm(ritmo~ ., data = est)
+
+step(regnull1, scope = list(lower=regnull1, upper=allreg1), direction="forward")
+#### mejor modelo lm(formula = ritmo ~ altura, data = Estudio2)
+
+mod2 <- lm(formula = ritmo ~ altura, data = est)
+
+summary(mod2)
+## modelo aceptables con una r ajustada de 67 % y error estandar de 3.33
+shapiro.test(rstudent(mod2))
+###
+## existe normalidad en los residuos con el p- value = .8781
+require(lmtest)
+bptest(mod2)
+### tenemos un p- value mayor a .05 
+# homostacidad
+
+dwtest(mod2, alternative = "two.sided") 
+### pasa la prueba de independencia
+##################
+# el ejercicio 2 es un buen modelo,pasa las pruebas 
+##############
+coefficients(mod2)
+## la ecuacion es y= -18.62 + .495737
+### por cada unidad que aumente la altura aumenta en .49  el ritmo
+
+ESTUDIO <- data.frame(ritmo,altura,edad,peso)
+pairs(ESTUDIO)
+cor(ESTUDIO)
+
+regnull <- lm(ritmo~ 1,data = ESTUDIO)
+
+allreg <- lm(ritmo~ ., data = ESTUDIO)
+
+step(regnull, scope = list(lower=regnull, upper=allreg), direction="forward")
+##23-11-2017
+####limite para producir 
+limestudio1<-seq(min(ESTUDIO$altura),max(ESTUDIO$altura),length=12)
+limestudio1<-data.frame(limestudio1)
+limestudio1
+#predict lm , prediccion del modelo
+limest<-predict.lm(allreg,limestudio1,interval="prediction",se.fit = TRUE,data=ESTUDIO)###para hacer la prediccion de mi modelo 
+#da los primeros valores del data (head)
+#fit.. completo#########################################################
+#lwr y upr limites
+#valores ajustados 78.07 limstud ajustado
+head(limest$fit)   ##te genera los limites
+##para dibujar los limites 
+matplot(limestudio,limest$fit,type="l")
+##hacer estimaciones puntuales 
+#newdata=data.frame()
+#names(Estudio) #son los nombres de la base de datos 
+predict(allreg,data.frame(peso=60,altura=190,edad=61),interval = 'predict')
+#prediccion cuando se tienen valores en especifico
+###########################################################################
+
+#######EJERCICIO########################cajas#################
+
+#que pase las pruebas, hacer las predicicones, eliminar el que no conviene 
+
+n.cajas<-c(10,15,10,20,25,18,12,14,16,22,24,17,13,30,24)
+distancia<-c(30,25,40,18,22,31,26,34,29,37,20,25,27,23,33)
+tiempo<-c(24,27,29,31,25,33,26,28,31,39,33,30,25,42,40)
+
+###
+
+
+PRODUCCION <- data.frame(n.cajas,distancia,tiempo)
+pairs(PRODUCCION)
+cor(PRODUCCION)
+regnullp <- lm(tiempo~ 1,data = PRODUCCION)
+
+allregp <- lm(tiempo~ ., data = PRODUCCION)
+
+step(regnullp, scope = list(lower=regnullp, upper=allregp), direction="forward")
+#### MEJOR MODELO lm(formula = tiempo ~ n.cajas + distancia, data = PRODUCCION)
+
+MODELO <- lm(formula = tiempo ~ n.cajas + distancia, data = PRODUCCION)
+
+summary(MODELO)
+## modelo aceptable con una r ajustada de 69.29 % y error estandar de 3.141
+shapiro.test(rstudent(MODELO))
+###
+## NO existe normalidad en los residuos DEBIDO A QUE el p- value =  1.985e-06, ES MENOR A .05
+
+##### homocedasticidad supuesto
+install.packages ("lmtest")
+require(lmtest)
+bptest(MODELO)
+### tenemos un p- value mayor a .05 , es decir p-value = 0.2669
+# lo cual se acepta ya que si es mayor a .05
+
+
+###independencia#####
+
+dwtest(MODELO, alternative = "two.sided") 
+###SE obtiene un pvalue de .2669 y un dw de 2.6193, está
+#en la forntera de 2.5
+
+##################
+ #como no cumple el supuesto de normalidad, se debe de corregir
+
+#OUTLIER
+
+install.packages("car")
+require(car)
+outlierTest(allregp,outoff=.05,n.max=5,order=T)#esto es para ver que tengo mal y cual es mi caso atipico
+influencePlot(allregp,id.n=5) 
+##la observacion 5 es outlier 
+#ahora para confirmar los casos que tienen implicaciones 
+#en el modelo se aplia el grafico de distancias do cook 
+cmod2<-cooks.distance(allregp)
+cmod2
+####las mayores distancias son la 5,4,y 14 pero la más larga 
+#es la de 5
+install.packages("faraway")
+require(faraway)
+halfnorm(cmod2,ylab="dist cook")
+##aqui esperariamos un dato mayor a uno para comprobar que si es atipico 
+#el numero mas LEJANO EN EL GRÁFICO  es el de 5 por lo que ahora la solucion es eliminarlo
+#volver a aplicar shapiro test
+##voy hacer el modelo pero tengo que quitar el modelo 5 no se forma manual con corchetes 
+########################################
+
+#como la observación 5 se debe de quitar, la vamos a extraer
+# de nuestra base :PRODUCCIÖN
+estudiop<-data.frame(PRODUCCION[-5,])
+estudiop
+##SE VULEVE A HACER LAS PRUEBAS PARA VER SI QUITANDO EL 5
+#ACEPTA LAS PRUEBAS
+regnullp2 <- lm(tiempo~ 1,data = estudiop)
+
+allregp2 <- lm(tiempo~ ., data = estudiop)
+
+step(regnullp2, scope = list(lower=regnullp2, upper=allregp2), direction="forward")
+#### MEJOR MODELO lm(formula = tiempo ~ n.cajas + distancia, data = PRODUCCION)
+
+MODELO2 <- lm(formula = tiempo ~ n.cajas + distancia, data = estudiop)
+
+####NORMALIDAD
+shapiro.test(rstudent(MODELO2)) 
+# p- value de .1944, es mayor a 0.05 y NO SE RECHAZA 
+# YA ES NORMAL
+
+
+# Autocorrelacion 
+require(lmtest)
+bptest(MODELO2)
+
+# no hay mas de dos variables que aporten lo mismo al modelo 
+#Este modelo si cumple con el supuesto de autocorrelacion
+#ya que tiene un p-value de 0.5951 (se acepta si p-value mayor a 0.05)
+
+#  Independencia
+
+dwtest(MODELO2, alternative = "two.sided")
+
+# un p value menor a 0.05 o un DW  entre 1.5-2.5
+# en este caso esta en la frontera CON 2.651 y un p-vale de 0.1644
+
+#ecuación: y= 2.1952+ 1.0031 x1+ 0.3805 x2
+
+# Si es constante la distancia y aumentamos en una unidad 
+# las cajas entonces aumenta 1.0031 el tiempo
+
+# si es constante el no.cajas y aumentamos en una unidad 
+# la diatncia entonces uamenta en 0.3805 el tiempo
+
+
+
+
