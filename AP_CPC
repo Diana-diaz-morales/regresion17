@@ -1,0 +1,58 @@
+#sacar la AIC sacar la r2 y deifnir con cual modelo me voy aquedar a simole vista 
+#### base 2 
+#donde 
+#AP: precio promedio
+#CPC: consumo por cliente
+city<- c("ama","bor","dal","sham","roya","texa", "corpus","pales","marsh","low","palo","mill","memp","gran", "llano", "brow","mer", "kar","math","lapry")
+AP<-c(30,31,37,42,43,45,50,54,54,57,58,58,80,73,88,89,92,97,100,102)
+CPC<-c(134,112,136,109,105,87,56,43,77,35,65,56,58,55,49,33,36,46,40,42)
+prima<-c(200,205,198,315,211,310,200,306,245,287,298,264,255,306,315,222,244,156,166,216)
+#genere tres modelos con los datos anteriores
+#1 para cada modelo encuentre el valor de r2 y el aic y genere un gráfico residual
+#2.comente sobre la adecuacion de los tres modelos
+#3. para precios de 40,60,80,100,120, de cpc calcule el AP utilizando el mejor 
+#modelo de los anteriores
+########PRIMER MODELO###################################
+mod1 <- lm (AP  ~ CPC)
+summary(mod1)
+AIC(mod1)
+#GENERANDO EL GRAFICO CON LOS RESIDUALES PARA VER EL COMPORTAMIENTO 
+plot(mod1$residuals)
+
+# R2 AJUSTADA DE 0.6033
+# SE OBTIENE EL AIC DE 168.77
+
+######SEGUNDO MODELO (AHORA UTILIZANDO AMBAS)##
+mod2<- lm (AP  ~ CPC+prima)
+summary(mod2)
+AIC(mod2)
+plot(mod2$residuals)
+
+# R2 AJUSTADA DE   .6663
+#  SE OBTIENE EL AIC DE 166.16
+
+
+#POR ULTIMO UN MODELO (3) CON LA VARIABLE PRIMA###
+mod3<- lm (AP~ prima)
+summary(mod3)
+AIC(mod3)
+plot(mod3$residuals)
+
+# SE OBTIENE R2 DE  -0.02
+# OBTENEMOS UN AIC DE 187.78
+
+############
+#POR LO TANTO EL MEJOR MODELO QUE SE OBTUVO ES 
+#EL SEGUNDO CON UN AIC DE 166.16QUE ES : mod2<- lm (AP  ~ CPC+prima)
+########################
+
+#AHORA PARA PRECIOS DE  40, 60, 80, 100 y 120 de CPC , CALCULE AP, USANDO SEGUNDO MODELO(EL MEJOR)
+
+predict(mod1, data.frame(CPC= 120), interval = "predict")
+
+# CUANDO  EL PRECIO ES
+#40.... 79.39
+# 60 ....68.08
+# 80....56.78
+# 100.... 45.47
+# 120....34.17
